@@ -1,7 +1,8 @@
-const { string } = require('yargs');
+// const { string } = require('yargs');
 const yargs = require('yargs');
 const log = console.log;
-const util = require('util')
+// const util = require('util')
+const notes = require('./notes.js');
 /* 
     import chalk from 'chalk';
     Define "require"
@@ -40,17 +41,27 @@ yargs.command({
         }
     },
     handler:function(argv){
-        log('adding a new note :'+util.inspect(argv.MyTitle, {depth: null}));
-        log('body of note:'+util.inspect(argv.body, {depth: null}));
-        //depth: null tell util.inspect to open everything until it get to a circular reference, the result can be quite long however
+        /*
+            log('adding a new note :'+util.inspect(argv.MyTitle, {depth: null}));
+            log('body of note:'+util.inspect(argv.body, {depth: null}));
+            depth: null tell util.inspect to open everything until it get to a circular reference, the result can be quite long however
+        */
+       notes.addNote(argv.MyTitle,argv.body);
     }
 })
 //create remove command
 yargs.command({
     command:'remove',
     describe:'remove a note',
-    handler:function(){
-        log('removing a new note');
+    builder:{
+        MyTitle:{
+            describe:'notes title',
+            demandOption:true,
+            type:'string' //force to be a string
+        }
+    },
+    handler:function(argv){
+        notes.removeNote(argv.MyTitle);
     }
 })
 //create read command
