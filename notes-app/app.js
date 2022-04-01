@@ -3,9 +3,10 @@ const yargs = require('yargs');
 const log = console.log;
 // const util = require('util')
 const notes = require('./notes.js');
+// const chalk = require('chalk');
 /* 
-    import chalk from 'chalk';
     Define "require"
+    import chalk from 'chalk';
     import { createRequire } from "module";
     const require = createRequire(import.meta.url);
     const add = require('./utils.js');
@@ -40,7 +41,7 @@ yargs.command({
             type:'string'   
         }
     },
-    handler:function(argv){
+    handler:(argv)=>{
         /*
             log('adding a new note :'+util.inspect(argv.MyTitle, {depth: null}));
             log('body of note:'+util.inspect(argv.body, {depth: null}));
@@ -60,7 +61,7 @@ yargs.command({
             type:'string' //force to be a string
         }
     },
-    handler:function(argv){
+    handler:(argv)=>{
         notes.removeNote(argv.MyTitle);
     }
 })
@@ -68,16 +69,23 @@ yargs.command({
 yargs.command({
     command:'read',
     describe:'read a note',
-    handler:function(){
-        log('reading a new note');
+    builder:{
+        title:{
+            describe:'note title',
+            demandOption:true,
+            type:'string'
+        }
+    },
+    handler:(argv)=>{
+        notes.readNot(argv.title);
     }
 })
 //create list command
 yargs.command({
     command:'list',
     describe:'list a note',
-    handler:function(){
-        log('listing a new note');
+    handler:()=>{
+        notes.lstnote();
     }
 })
 //add,remove,read

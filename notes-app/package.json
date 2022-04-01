@@ -10,7 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^5.0.1",
+    "express": "^4.17.3",
     "validator": "^13.7.0",
     "yargs": "^17.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/register": "^7.17.7"
   }
 }
