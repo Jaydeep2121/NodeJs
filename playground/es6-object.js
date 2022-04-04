@@ -27,7 +27,7 @@ const {label:prodctlbl,price,rating=5} = product;
 // console.log(rating); //only used when the rating name of property 
                     // not found and it's defined as default at the declaration time
 
-const transaction = (type,{ label,stock }) =>{
+const transaction = (type,{ label,stock = 0 }={}) =>{
     console.log(type,"\n",label,"\n",stock);
 }
 transaction('order',product);

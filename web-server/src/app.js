@@ -2,6 +2,8 @@ const path = require('path')
 const express = require('express');
 const app = express();
 const hbs = require('hbs');
+const getMyData = require('./utils/module');
+const forecast = require('./utils/forecast');
 
 //define path for express config
 const DirPath=path.join(__dirname , '../public');
@@ -50,15 +52,44 @@ app.get('/help',(req,res)=>{
         name:'Andrew help'
     })
 })
-app.get('/product',(req,res)=>{
-    if (!req.query.type) {
-        res.send({
-            error:'you must provide search term'
+app.get('/weather',(req,res)=>{
+    if (!req.query.address) {
+        return res.send({
+            error:'you must provide address'
         })
     }
-    console.log(req.query.type);
+    getMyData(req.query.address,(error,{latitude,longitude,location}={})=>{
+        if (error) {
+            return res.send({error})
+        }
+        forecast(latitude,longitude,(error,forecastData)=>{
+            if (error) {
+                return res.send(error)                
+            }
+            res.send({
+                forecast:forecastData,
+                location,
+                address:req.query.address
+            })
+        })
+    })
+    // res.send({
+    //     forecast:'its raining',
+    //     location:'philadelphia',
+    //     address:req.query.address
+    // })
+})
+app.get('/product',(req,res)=>{
+    if (!req.query.search && !req.query.rating) {
+        return res.send({
+            error:'you must provide search term and rating'
+        })
+    }
     res.send({
-        products:[]
+        products:{
+            search:req.query.search,
+            rating:req.query.rating
+        }
     });
 })
 app.get('/help/*',(req,res)=>{
