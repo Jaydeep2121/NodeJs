@@ -7,7 +7,7 @@ option : 1
     const objectID = mongoDB.objectID;
 option : 2
 */
-const { MongoClient,ObjectID } = require('mongodb');
+const { MongoClient,ObjectID, Db } = require('mongodb');
 
 const connectionURL = 'mongodb://127.0.0.1:27017';
 const databaseName = 'task-manager';
@@ -17,9 +17,55 @@ MongoClient.connect(connectionURL,{ useNewUrlParser:true },(error,client)=>{
     if (error) {
         return console.log('Unable to connect to database');
     }
-    
     const db = client.db(databaseName);
-    
+    /* 
+        ->delete
+        db.collection('users').deleteMany({
+            age:25
+        }).then((result)=>{
+            console.log(result);
+        }).catch((error)=>{
+            console.log(error);
+        })
+
+        db.collection('users').deleteOne({
+            age:23
+        }).then(res=>{
+            console.log(res);
+        }).catch(error=>{
+            console.log(error);
+        })
+    */
+    /*
+        ->update
+        db.collection('users').updateOne({
+            _id:new ObjectID('624be5067d5a009c4e2d556c')
+        },{
+            // $set:{
+            //     name:'ramesh'
+            // }
+            $inc:{
+                age:1
+            }
+        }).then((result)=>{
+            console.log(result);
+        }).catch((error)=>{
+            console.log(error);
+        });
+
+        db.collection('tasks').updateMany({
+            completed:false
+        },{
+            $set:{
+                description:'work done!'
+            }
+        }).then((result)=>{
+            console.log(result);
+        }).catch((error)=>{
+            console.log(error);
+        });
+    */
+        
     /*
         ->Read
         db.collection('users').findOne({name:'Ravi'},(error,user)=>{
@@ -98,5 +144,4 @@ MongoClient.connect(connectionURL,{ useNewUrlParser:true },(error,client)=>{
             console.log(result.ops);
         })
     */
-
 })
