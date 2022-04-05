@@ -22,8 +22,6 @@ geocode('Philadephia',(Mydata)=>{
     console.log(Mydata);
 });
 
-*/
-
 const add = (a,b,add) => {
     setTimeout(() => {
         add(a+b);
@@ -34,4 +32,17 @@ add(1,4,(sum)=>{
     console.log("the sum is:",sum);    
 })
 
+*/
+const doworkCallback = (callback) =>{
+    setTimeout(() => {
+        //callback('this is error',undefined)
+        callback(undefined,[1,2,3]);
+    }, 2000);
+}
+doworkCallback((error,result)=>{
+    if (error) {
+        return console.log(error);
+    }
+    console.log(result);
+})
 
