@@ -1,7 +1,7 @@
 const express = require('express');
 require('./db/mongoose');
 const MyUser = require('./models/user');
-const Task = require('./models/task');
+const MyTask = require('./models/task');
 
 const app=express();
 const port=process.env.PORT || 3000;
@@ -17,7 +17,7 @@ app.post('/users',(req,res)=>{
     });
 })
 app.post('/tasks',(req,res)=>{
-    const task = new Task(req.body);
+    const task = new MyTask(req.body);
     task.save().then(() => {
         res.status(201).send(task);
     }).catch((err) => {
@@ -43,6 +43,24 @@ app.get('/users/:id',(req,res)=>{
       res.status(500).send();
   });  
 })
+app.get('/tasks',(req,res)=>{
+    MyTask.find({}).then((task) => {
+        res.status(201).send(task);
+    }).catch((err) => {
+        res.status(500).send();
+    });
+})
+app.get('/tasks/:id',(req,res)=>{
+    const _id=req.params.id;
+    MyTask.findById(_id).then((result) => {
+        if (!result) {    
+              return res.status(404).send();          
+        }
+        res.send(result);
+    }).catch((err) => {
+        res.status(500).send();
+    });  
+  })
 app.listen(port,()=>{
     console.log('server is up on port',port);
 })
