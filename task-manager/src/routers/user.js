@@ -43,7 +43,11 @@ router.patch('/users/:id',async (req,res)=>{
         return res.status(400).send({error:'invalid updates!'});
     }
     try {
-        const user = await MyUser.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
+        const user = await MyUser.findById(req.params.id);
+        keyFields.forEach((upd)=>user[upd]=req.body[upd])
+        await user.save();
+        // const user = await MyUser.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
+        // findByIdAndUpdate is not used because it's bypass the middleware
         if(!user){
             return res.status(404).send();
         }
