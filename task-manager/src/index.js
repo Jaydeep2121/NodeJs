@@ -26,4 +26,14 @@ app.listen(port,()=>{
         console.log(isMatch);
     }
     MyFunction();
+
+    const jwt = require('jsonwebtoken')
+    const MyFunction = async () =>{
+        const token = await jwt.sign({_id:'xyz678'},'thisisdemo',{expiresIn:'2 days'})
+        console.log(token);
+
+        const data = await jwt.verify(token,'thisisdemo')
+        console.log(data);
+    }
+    console.log(MyFunction())
 */
