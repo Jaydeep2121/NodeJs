@@ -9,7 +9,7 @@ router.post('/users',async (req,res)=>{
     try {
         await user.save();
         const token = await user.generateAuthToken()
-        res.send({user,token})        
+        res.send({user,token})
     } catch (error) {
         res.status(400).send(error);
     }
@@ -19,20 +19,38 @@ router.post('/users/login',async (req,res)=>{
     try {
         const user = await MyUser.findByCredentials(req.body.email,req.body.password)
         const token = await user.generateAuthToken()
-        res.send({user,token})
+        // res.send({user:user.getPublicData(),token})
+        res.send({user,token}) //user implicit call toJSON
     } catch (error) {
         res.status(400).send(error)
     }
 })
+//for logout single
+router.get('/users/logout',auth, async (req,res)=>{
+    try {
+        req.User.tokens = req.User.tokens.filter((token)=>{
+            return token.token!==req.token
+        })
+        await req.User.save()
+        res.send()
+    } catch (error) {
+        res.status(500).send(error)
+    }
+})
+//for logout from all
+router.post('/users/logoutAll',auth,async (req,res)=>{
+    try {
+        req.User.tokens=[]
+        await req.User.save()
+        res.send()
+    } catch (error) {
+        console.log(error)
+        res.status(500).send(error)
+    }
+})
 //for getting data
 router.get('/users/me',auth,async (req,res)=>{
-    res.send(req.user)
-    // try {
-    //     const user = await MyUser.find({});
-    //     res.send(user);
-    // } catch (error) {
-    //     res.status(500).send(error);
-    // }
+    res.send(req.User)
 })
 router.get('/users/:id',async (req,res)=>{
     const _id=req.params.id;
@@ -47,7 +65,7 @@ router.get('/users/:id',async (req,res)=>{
     }
 })
 //update data
-router.patch('/users/:id',async (req,res)=>{
+router.patch('/users/me',auth,async (req,res)=>{
     const keyFields = Object.keys(req.body);
     const allowUpdate = ['name','age','email','password'];
     const isValidOper = keyFields.every((value)=>allowUpdate.includes(value))
@@ -56,27 +74,22 @@ router.patch('/users/:id',async (req,res)=>{
         return res.status(400).send({error:'invalid updates!'});
     }
     try {
-        const user = await MyUser.findById(req.params.id);
-        keyFields.forEach((upd)=>user[upd]=req.body[upd])
-        await user.save();
+        // const user = await MyUser.findById(req.params.id);
+        keyFields.forEach((upd)=>req.User[upd]=req.body[upd])
+        await req.User.save();
         // const user = await MyUser.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
         // findByIdAndUpdate is not used because it's bypass the middleware
-        if(!user){
-            return res.status(404).send();
-        }
-        res.send(user);
+        res.send(req.User);
     } catch (error) {
+        console.log('e',error)
         res.status(500).send();
     }
 })
 //delete data
-router.delete('/users/:id',async (req,res)=>{
+router.delete('/users/me',auth,async (req,res)=>{
     try {
-        const user = await MyUser.findByIdAndDelete(req.params.id);
-        if (!user) {
-            return res.status(404).send();
-        }
-        res.send(user);
+        await req.User.remove()
+        res.send(req.User);
     } catch (error) {
         res.status(404).send();
     }

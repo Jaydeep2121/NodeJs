@@ -50,6 +50,13 @@ const userSchema = new mongoose.Schema({
         }
     }]
 });
+//relation bet userid and localfield to foreignfield and owner
+userSchema.virtual('tasks',{
+    ref:'Task',
+    localField:'_id',
+    foreignField:'owner'
+})
+
 userSchema.methods.generateAuthToken = async function(){
     const Guser=this
     const token=jwt.sign({ _id:Guser._id.toString() },'thisisdemo')
@@ -70,7 +77,15 @@ userSchema.statics.findByCredentials = async (email,password)=>{
     }
     return CurrUser
 }
+userSchema.methods.toJSON = function(){
+    const user=this
+    const userObject=user.toObject();
 
+    delete userObject.password
+    delete userObject.tokens
+
+    return userObject
+}
 //Hash the plain text password before saving
 userSchema.pre('save',async function(next){
     const user = this
