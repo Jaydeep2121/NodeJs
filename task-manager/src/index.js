@@ -14,19 +14,21 @@ app.listen(port,()=>{
     console.log('server is up on port',port);
 })
 
+/*
+
 const Task = require('./models/task')
 const user = require('./models/user')
 const main = async ()=>{
-    // const task = await Task.findById('62516d9cf5469f1974092501')
-    // await task.populate('owner').execPopulate()
-    // console.log(task.owner); //found the user
+    const task = await Task.findById('62516d9cf5469f1974092501')
+    await task.populate('owner').execPopulate()
+    console.log(task.owner); //found the user
 
-    // const users = await user.findById('62516a2ab5e56d1e08d7ccb7')
-    // await users.populate('tasks').execPopulate()
-    // console.log(users.tasks)
+    const users = await user.findById('62516a2ab5e56d1e08d7ccb7')
+    await users.populate('tasks').execPopulate()
+    console.log(users.tasks)
 }
 main()
-/*
+
     const bcrypt = require('bcryptjs');
     const MyFunction = async () =>{
         const pass = 'Rahul267@!#';

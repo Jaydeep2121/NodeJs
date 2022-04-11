@@ -1,5 +1,7 @@
 const express = require('express');
 const auth = require('../middleware/auth');
+const multer = require('multer');
+const sharp = require('sharp');
 const MyUser = require('../models/user');
 const router = new express.Router();
 
@@ -94,4 +96,46 @@ router.delete('/users/me',auth,async (req,res)=>{
         res.status(404).send();
     }
 })
+//profile image upload
+const upload = multer({
+    // dest:'Avtars',
+    limits:{
+        fileSize:1000000
+    },
+    fileFilter(req,file,callbk){
+        if(!file.originalname.match(/\.(jpg|jpeg|png)$/gm)){
+            return callbk(new Error('Allow Only JPG JPEG and PNG file to upload'))
+        }
+        callbk(undefined,true)
+    }
+})
+router.post('/upload/me/avtar',auth,upload.single('avtar_profile'),async (req,res)=>{
+    req.User.avtar=req.file.buffer
+    await req.User.save()
+    res.send()
+},(error,req,res,next)=>{
+    res.status(400).send({error:error.message})
+})
+
+//delete profile
+router.delete('/users/me/avtar',auth,async (req,res)=>{
+    req.User.avtar=undefined
+    await req.User.save()
+    res.send()
+})
+
+router.get('/users/:id/avtar',async (req,res)=>{
+    try {
+        const usr=await MyUser.findById(req.params.id)
+        if(!usr || !usr.avtar){
+            throw new Error()
+        }
+        res.set('Content-Type','image/jpg')
+        res.send(usr.avtar)
+    } catch (error) {
+        console.log('e',error)
+        res.status(404).send()
+    }
+})
+
 module.exports=router;

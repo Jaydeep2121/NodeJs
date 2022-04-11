@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
+const Mytask = require('./task');
 
 const userSchema = new mongoose.Schema({
     name:{
@@ -48,7 +49,12 @@ const userSchema = new mongoose.Schema({
             type:String,
             required:true
         }
-    }]
+    }],
+    avtar:{
+        type:Buffer
+    }
+},{
+    timestamps:true
 });
 //relation bet userid and localfield to foreignfield and owner
 userSchema.virtual('tasks',{
@@ -83,6 +89,7 @@ userSchema.methods.toJSON = function(){
 
     delete userObject.password
     delete userObject.tokens
+    delete userObject.avtar
 
     return userObject
 }
@@ -94,6 +101,13 @@ userSchema.pre('save',async function(next){
     }
     next()
 })
+//delete user task when user is removed
+userSchema.pre('remove',async function(next){
+    const usertask=this
+    await Mytask.deleteMany({owner:usertask._id})
+    next()
+})
+
 const user = mongoose.model('User',userSchema)
 
 module.exports=user
