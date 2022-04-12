@@ -110,7 +110,8 @@ const upload = multer({
     }
 })
 router.post('/upload/me/avtar',auth,upload.single('avtar_profile'),async (req,res)=>{
-    req.User.avtar=req.file.buffer
+    const buffer = await sharp(req.file.buffer).resize({width:250,height:250}).png().toBuffer()
+    req.User.avtar=buffer
     await req.User.save()
     res.send()
 },(error,req,res,next)=>{
@@ -130,7 +131,7 @@ router.get('/users/:id/avtar',async (req,res)=>{
         if(!usr || !usr.avtar){
             throw new Error()
         }
-        res.set('Content-Type','image/jpg')
+        res.set('Content-Type','image/png'  )
         res.send(usr.avtar)
     } catch (error) {
         console.log('e',error)
