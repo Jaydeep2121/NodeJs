@@ -7,7 +7,7 @@ const router = new express.Router();
 router.post('/topic',auth,async (req,res)=>{
     const topic = new MyTopic({
         ...req.body,
-        owner:req.User._id   
+        user_owner:req.User._id   
     });
     try{
         await topic.save();
@@ -21,7 +21,7 @@ router.post('/topic',auth,async (req,res)=>{
 router.get('/topics/:id',auth,async (req,res)=>{
     const _id=req.params.id;
     try {
-        const topic=await MyTopic.findOne({_id,owner:req.User._id})
+        const topic=await MyTopic.findOne({_id,user_owner:req.User._id})
         if (!topic) {
             return res.status(404).send();
         }
@@ -33,7 +33,7 @@ router.get('/topics/:id',auth,async (req,res)=>{
 //get all topics
 router.get('/topics',auth,async (req,res)=>{
     try {
-        const topic=await MyTopic.find({owner:req.User._id})
+        const topic=await MyTopic.find({user_owner:req.User._id})
         if (!topic) {
             return res.status(404).send();
         }

@@ -12,7 +12,7 @@ const topicSchema = new mongoose.Schema({
                 }
             }
         },
-        owner:{
+        user_owner:{
             type:mongoose.Schema.Types.ObjectId,
             require:true,
             ref:'User'
