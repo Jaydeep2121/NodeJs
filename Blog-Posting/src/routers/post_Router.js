@@ -2,7 +2,6 @@ const express = require("express");
 const MyPost = require("../models/post_Model");
 const MyTopic = require("../models/topic_Model");
 const auth = require("../middleware/auth");
-const mongoose = require("mongoose");
 const router = new express.Router();
 
 //create post
@@ -80,18 +79,12 @@ router.get('/posts',auth,async (req,res)=>{
         res.status(500).send();
     }
 })
-//GET /posts?topic=business
 //get post by topic
 router.get('/postes/:id',auth,async (req,res)=>{
     try {
-        // let topic=''
-        // if (req.query.topic.toLowerCase()==='business') {
-        //     topic = 'Business';
-        // }
-        // if(topic===null || topic==='')return;
-        // const topicid = await MyTopic.findOne({title:topic},'_id');
-        const data=await MyPost.find({topic_owner:req.params.id});
-        // await data.populate('topic_owner');
+        const data=await MyPost.find({
+            topic_owner:req.params.id
+        }).populate('topic_owner');
         res.status(200).send(data);
     } catch (error) {
         console.log(error);
