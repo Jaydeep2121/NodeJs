@@ -35,8 +35,10 @@ const adminSchema = new mongoose.Schema({
         throw new Error("string is shorter");
       }
     },
-  }
-});
+  },
+},{
+  collection: 'adminCol'
+ });
 //generate token
 adminSchema.methods.generateAuthToken = async function () {
     const Guser = this;
@@ -56,11 +58,11 @@ adminSchema.pre("save", async function (next) {
 adminSchema.statics.findByCredentials = async (email,password)=>{
     const CurrAdmin = await admin.findOne({ email })
     if(!CurrAdmin){
-        throw new Error('Unable to login')
+        throw new Error('Unablezzz to login')
     }
     const isMatch = await bcrypt.compare(password,CurrAdmin.password)
     if (!isMatch) {
-        throw new Error('Unable to login')  
+        throw new Error('Unableaaa to login')  
     }
     return CurrAdmin
 }

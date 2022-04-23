@@ -18,7 +18,7 @@ router.post('/admin/login',async (req,res)=>{
     try {
         const admin = await Myadmin.findByCredentials(req.body.email,req.body.password);
         const token = await admin.generateAuthToken();
-        res.status(201).send({admin,token});
+        res.status(201).send({token});
     } catch (error) {
         console.log('e',error);
         res.status(400).send(error);
