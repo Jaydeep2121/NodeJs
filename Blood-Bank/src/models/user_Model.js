@@ -9,11 +9,6 @@ const UserSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  mobile:{
-      type:Number,
-      trim:true,
-      required:[true,'User phone number required']
-  },
   email: {
     type: String,
     unique: true,
@@ -25,6 +20,17 @@ const UserSchema = new mongoose.Schema({
         throw new Error("Email is invalid");
       }
     },
+  },
+  gender:{
+    type:String,
+    trim:true,
+    required:true,
+    lowercase:true
+  },
+  mobile:{
+      type:Number,
+      trim:true,
+      required:[true,'User phone number required']
   },
   password: {
     type: String,
