@@ -24,8 +24,7 @@ const UserSchema = new mongoose.Schema({
   gender:{
     type:String,
     trim:true,
-    required:true,
-    lowercase:true
+    required:true
   },
   mobile:{
       type:Number,
@@ -42,11 +41,9 @@ const UserSchema = new mongoose.Schema({
       }
     },
   },
-  imageUrl:{
-      type:String,
-      require:true,
-      trim:true
-  },
+  imageUrl:[{
+      type:Object
+  }],
   blood_group:{
     type:mongoose.Schema.Types.ObjectId,
     required:true,

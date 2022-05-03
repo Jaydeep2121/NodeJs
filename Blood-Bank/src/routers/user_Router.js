@@ -1,6 +1,8 @@
 const express = require("express");
-const MyUser=require("../models/user_Model");
+const MyUser = require("../models/user_Model");
+const MyGrp = require("../models/blood_group_Model");
 const multer = require("multer");
+const fromdata = multer();
 const router = new express.Router();
 
 var FileStorage = multer.diskStorage({
@@ -8,7 +10,6 @@ var FileStorage = multer.diskStorage({
     cb(null, "../../NodeJS/Blood-Bank/public/images");
   },
   filename: (req, file, cb) => {
-    console.log(file);
     var filetype = "";
     if (file.mimetype === "image/jpeg") {
       filetype = "jpeg";
@@ -25,36 +26,34 @@ var FileStorage = multer.diskStorage({
 var upload = multer({ storage: FileStorage });
 
 //for save data
-router.post("/users", upload.single("file"), async (req, res) => {
-  if (!req.file) {
-    return res.status(500).send({ message: "Upload fail" });
-  } else {
-    req.body.imageUrl = "../../public/images" + req.file.filename;
-    MyUser.create(req.body, function (err, gallery) {
-      if (err) {
-        console.log("route error:", err);
-        return next(err);
-      }
-      res.json(gallery);
-    });
-  }
-});
-//get data by id
-/*
-router.get("/:id", async (req, res) => {
-  MyUser.findById(req.params.id, (err, gallery) => {
-    if (err) return next(err);
-    res.json(gallery);
-  });
-});
-*/
-// for getting data
-router.get('/getUsers', async (req, res) => {
+router.post("/users", upload.array("imageUrl", 1), async (req, res) => {
   try {
-    const user = await MyUser.find({});
+    const user = new MyUser({
+      ...req.body,
+      imageUrl: req.files[0].path,
+    });
+    await user.save();
     res.send(user);
   } catch (error) {
-    console.log('e', error);
+    console.log("e", error);
   }
 });
-module.exports=router;
+// for getting user data
+router.get("/getUsers", async (req, res) => {
+  try {
+    const user = await MyUser.find().select({"name":1,"email":2,"mobile":4,"_id":0});
+    res.json(user);
+  } catch (error) {
+    console.log("e", error);
+  }
+});
+// for getting bloodgroup
+router.get("/getGroups", async (req, res) => {
+  try {
+    const group = await MyGrp.find();
+    res.json(group);
+  } catch (error) {
+    console.log("e", error);
+  }
+});
+module.exports = router;
