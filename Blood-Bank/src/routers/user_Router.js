@@ -41,28 +41,30 @@ router.post("/users", upload.array("imageUrl", 1), async (req, res) => {
 });
 //for update data
 router.patch("/UpdateUser", upload.array("imageUrl", 1), async (req, res) => {
-  const keyFields = Object.keys(req.body);
-  const allowUpdate = [
-    "name",
-    "email",
-    "gender",
-    "mobile",
-    "password",
-    "blood_group",
-  ];
-  const isValidOper = keyFields.every((value) => allowUpdate.includes(value));
-  if (!isValidOper) {
-    return res.status(400).send({ error: "invalid updates!" });
-  }
-  try {
-    const user = await MyUser.findOneAndUpdate({
-      ...req.body,
-      imageUrl: req.files,
-    });
-    res.send(user);
-  } catch (error) {
-    console.log("e", error);
-  }
+  const data = MyUser.findOne(req.body.email);
+  console.log(data);
+  // const keyFields = Object.keys(req.body);
+  // const allowUpdate = [
+  //   "name",
+  //   "email",
+  //   "gender",
+  //   "mobile",
+  //   "password",
+  //   "blood_group",
+  // ];
+  // const isValidOper = keyFields.every((value) => allowUpdate.includes(value));
+  // if (!isValidOper) {
+  //   return res.status(400).send({ error: "invalid updates!" });
+  // }
+  // try {
+  //   const user = await MyUser.findOneAndUpdate({
+  //     ...req.body,
+  //     imageUrl: req.files,
+  //   });
+  //   res.send(user);
+  // } catch (error) {
+  //   console.log("e", error);
+  // }
 });
 // To Get User Details By User ID
 router.get("/editUser/:id", async (req, res) => {
@@ -73,19 +75,20 @@ router.get("/editUser/:id", async (req, res) => {
 });
 //for delete data
 router.get("/deleteUser/:id", async (req, res) => {
-  /*
+  try {
     filedata = await MyUser.findById({ _id: req.params.id });
-    fs.readdir(filedata.imageUrl.toString(), (err, file) => {
-      if (err) throw err;
-      fs.unlink(filedata.imageUrl);
+    fs.unlink(filedata.imageUrl[0].path, (err) => {
+      if (err) return;
     });
-  */
-  MyUser.findByIdAndDelete({ _id: req.params.id }, async (err, data) => {
-    if (err) res.json(err);
-    else {
-      res.json({ success: "Employee Deleted Successfully" });
-    }
-  });
+    MyUser.findByIdAndDelete({ _id: req.params.id }, async (err, data) => {
+      if (err) res.json(err);
+      else {
+        res.json({ success: "Employee Deleted Successfully" });
+      }
+    });
+  } catch (error) {
+    console.log("e", error);
+  }
 });
 // for getting user data
 router.get("/getUsers", async (req, res) => {
