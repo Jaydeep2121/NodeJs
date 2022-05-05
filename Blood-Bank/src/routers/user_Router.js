@@ -41,30 +41,33 @@ router.post("/users", upload.array("imageUrl", 1), async (req, res) => {
 });
 //for update data
 router.patch("/UpdateUser", upload.array("imageUrl", 1), async (req, res) => {
-  const data = MyUser.findOne(req.body.email);
-  console.log(data);
-  // const keyFields = Object.keys(req.body);
-  // const allowUpdate = [
-  //   "name",
-  //   "email",
-  //   "gender",
-  //   "mobile",
-  //   "password",
-  //   "blood_group",
-  // ];
-  // const isValidOper = keyFields.every((value) => allowUpdate.includes(value));
-  // if (!isValidOper) {
-  //   return res.status(400).send({ error: "invalid updates!" });
-  // }
-  // try {
-  //   const user = await MyUser.findOneAndUpdate({
-  //     ...req.body,
-  //     imageUrl: req.files,
-  //   });
-  //   res.send(user);
-  // } catch (error) {
-  //   console.log("e", error);
-  // }
+  var objectValue = JSON.parse(JSON.stringify(req.body));
+  const pathdata = await MyUser.find({ email: objectValue["email"] });
+  fs.unlink(pathdata[0].imageUrl[0]["path"], (err) => {
+    if (err) return;
+  });
+  const keyFields = Object.keys(req.body);
+  const allowUpdate = [
+    "name",
+    "email",
+    "gender",
+    "mobile",
+    "password",
+    "blood_group",
+  ];
+  const isValidOper = keyFields.every((value) => allowUpdate.includes(value));
+  if (!isValidOper) {
+    return res.status(400).send({ error: "invalid updates!" });
+  }
+  try {
+    const user = await MyUser.findOneAndUpdate({
+      ...req.body,
+      imageUrl: req.files,
+    });
+    res.send(user);
+  } catch (error) {
+    console.log("e", error);
+  }
 });
 // To Get User Details By User ID
 router.get("/editUser/:id", async (req, res) => {
