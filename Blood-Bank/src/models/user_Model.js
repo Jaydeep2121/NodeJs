@@ -9,11 +9,6 @@ const UserSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  mobile:{
-      type:Number,
-      trim:true,
-      required:[true,'User phone number required']
-  },
   email: {
     type: String,
     unique: true,
@@ -26,6 +21,16 @@ const UserSchema = new mongoose.Schema({
       }
     },
   },
+  gender:{
+    type:String,
+    trim:true,
+    required:true
+  },
+  mobile:{
+      type:Number,
+      trim:true,
+      required:[true,'User phone number required']
+  },
   password: {
     type: String,
     required: true,
@@ -36,11 +41,9 @@ const UserSchema = new mongoose.Schema({
       }
     },
   },
-  imageUrl:{
-      type:String,
-      require:true,
-      trim:true
-  },
+  imageUrl:[{
+      type:Object
+  }],
   blood_group:{
     type:mongoose.Schema.Types.ObjectId,
     required:true,

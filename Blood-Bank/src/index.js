@@ -6,9 +6,10 @@ const port = process.env.PORT || 3000;
 
 app.use(cors({
   credentials:true,
-  origin:['http://localhost:4200']
+  origin:['http://127.0.0.1:4200']
 }));
 app.use(require('cookie-parser')());
+app.use('/public',express.static("public"))
 app.use(express.json());
 app.use(require('./middleware/middlewares'));
 app.listen(port, () => {

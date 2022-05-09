@@ -62,7 +62,7 @@ adminSchema.statics.findByCredentials = async (email,password)=>{
     }
     const isMatch = await bcrypt.compare(password,CurrAdmin.password)
     if (!isMatch) {
-        throw new Error('Unableaaa to login')  
+        throw new Error('Unableaaa to login')
     }
     return CurrAdmin
 }
