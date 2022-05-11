@@ -20,9 +20,9 @@ const bank = new mongoose.Schema({
         required:true,
         trim:true
     },
-    img:{
-        type:String
-    }
+    imageUrl:[{
+        type:Object
+    }]
 });
 const bbank = mongoose.model("Bbank",bank);
 module.exports=bbank;

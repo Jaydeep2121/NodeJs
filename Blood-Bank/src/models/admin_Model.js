@@ -36,6 +36,9 @@ const adminSchema = new mongoose.Schema({
       }
     },
   },
+  imageUrl:[{
+    type:Object
+  }]
 },{
   collection: 'adminCol'
  });

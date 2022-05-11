@@ -3,7 +3,7 @@ const fromdata = multer();
 
 var FileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "../../NodeJS/Blood-Bank/public/images");
+        cb(null, "public/images");
     },
     filename: (req, file, cb) => {
         var filetype = "";

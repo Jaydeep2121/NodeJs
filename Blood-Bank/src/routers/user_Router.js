@@ -6,9 +6,15 @@ const router = new express.Router();
 //for save User data
 router.post("/users", FileUpl.upload.array("imageUrl", 1), userContr.AddUser);
 //for update User data
-router.patch("/UpdateUser", FileUpl.upload.array("imageUrl", 1), userContr.UpdateUser);
+router.patch(
+  "/UpdateUser",
+  FileUpl.upload.array("imageUrl", 1),
+  userContr.UpdateUser
+);
 // To Get User Details By User ID
 router.get("/editUser/:id", userContr.editUser);
+//to get user details with ref data
+router.get("/getUserRef/:id", userContr.getUserRef);
 //for delete data
 router.get("/deleteUser/:id", userContr.deleteUser);
 // for getting user data

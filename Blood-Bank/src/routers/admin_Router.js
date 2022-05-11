@@ -1,9 +1,10 @@
 const express = require("express");
 const Adminctr = require("../controller/AdminCtr");
+const FileUpl = require("../controller/FileUpload");
 const router = new express.Router();
 
 //register admin
-router.post("/admin",Adminctr.Addadmin);
+router.post("/admin",FileUpl.upload.array("imageUrl", 1),Adminctr.Addadmin);
 //login admin
 router.post("/admin/login",Adminctr.loginadm);
 //authenticate admin
@@ -13,5 +14,5 @@ router.post("/logout",Adminctr.logout);
 // for getting admin data
 router.get("/getAdmin",Adminctr.getdata);
 //for update admindata
-router.patch("/UpdateAdmin",Adminctr.updAdmin);
+router.patch("/UpdateAdmin",FileUpl.upload.array("imageUrl", 1),Adminctr.updAdmin);
 module.exports = router;
