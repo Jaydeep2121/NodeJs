@@ -1,5 +1,6 @@
 const Myadmin = require("../models/admin_Model");
 var jwt = require("jsonwebtoken");
+const fs = require("fs");
 
 //register admin
 exports.Addadmin = async (req, res) => {
@@ -72,15 +73,34 @@ exports.getdata = async (req, res) => {
 };
 //for update admindata
 exports.updAdmin = async (req, res) => {
+  const pathdata = await Myadmin.findOne({}).select('imageUrl -_id');
+  fs.unlink(pathdata['imageUrl'][0]['path'], (err) => {
+    if (err) return;
+  });
+  const keyFields = Object.keys(req.body);
+  const allowUpdate = [
+    "name",
+    "mobile",
+    "email",
+    "password"
+  ];
+  const isValidOper = keyFields.every((value) => allowUpdate.includes(value));
+  if (!isValidOper) {
+    return res.status(400).send({ error: "invalid updates!" });
+  }
+  try {
     // const CurrAdmin = await Myadmin.findOne({}).select('password -_id');
     // if (CurrAdmin['password']===req.body.password) {
     //     console.log("same");
     // }else{
     //     console.log("not");
     // }
-  try {
-    // const admin = await Myadmin.findOneAndUpdate(req.body);
-    // res.send(admin);
+
+    const admin = await Myadmin.findOneAndUpdate({
+      ...req.body,
+      imageUrl: req.files,
+    });
+    res.send(admin);
   } catch (error) {
     console.log("e", error);
   }

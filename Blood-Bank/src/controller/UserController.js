@@ -5,13 +5,12 @@ const fs = require("fs");
 //add new user data
 exports.AddUser = async (req, res) => {
   try {
-    
-    // const user = new MyUser({
-    //   ...req.body,
-    //   imageUrl: req.files,
-    // });
-    // await user.save();
-    // res.send(user);
+    const user = new MyUser({
+      ...req.body,
+      imageUrl: req.files,
+    });
+    await user.save();
+    res.send(user);
   } catch (error) {
     console.log("e", error);
   }

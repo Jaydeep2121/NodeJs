@@ -65,6 +65,18 @@ UserSchema.pre("save", async function (next) {
   }
   next();
 });
+UserSchema.pre('findOneAndUpdate', function(next) {
+  if (!this._update.password) {
+    return next()
+  }
+  bcrypt.hash(this._update.password, 8, (err, hash) => {
+    if (err) {
+      return next(err)
+    }
+    this._update.password = hash
+    next()
+  }) 
+})
 //for login credentials
 UserSchema.statics.findByCredentials = async (email,password)=>{
     const CurrUser = await user.findOne({ email })

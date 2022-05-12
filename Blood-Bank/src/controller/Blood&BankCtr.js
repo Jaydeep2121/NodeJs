@@ -54,7 +54,6 @@ exports.updateData = async (req, res) => {
   fs.unlink(pathdata[0].imageUrl[0]["path"], (err) => {
     if (err) return;
   });
-
   const keyFields = Object.keys(req.body);
   const allowUpdate = ["name", "mobile", "timing", "address"];
   const isValidOper = keyFields.every((value) => allowUpdate.includes(value));
