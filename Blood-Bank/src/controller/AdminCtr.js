@@ -89,13 +89,6 @@ exports.updAdmin = async (req, res) => {
     return res.status(400).send({ error: "invalid updates!" });
   }
   try {
-    // const CurrAdmin = await Myadmin.findOne({}).select('password -_id');
-    // if (CurrAdmin['password']===req.body.password) {
-    //     console.log("same");
-    // }else{
-    //     console.log("not");
-    // }
-
     const admin = await Myadmin.findOneAndUpdate({
       ...req.body,
       imageUrl: req.files,
