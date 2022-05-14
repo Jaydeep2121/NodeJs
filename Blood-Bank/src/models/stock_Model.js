@@ -14,6 +14,11 @@ const Mstock = new mongoose.Schema({
       type:mongoose.Schema.Types.ObjectId,
       required:true,
       ref:'Bgroup'
+    },
+    blood_compo:{
+      type:mongoose.Schema.Types.ObjectId,
+      required:true,
+      ref:'bcompo'
     }
 },{timestamps:true});
 const stock = mongoose.model("Bstock",Mstock);

@@ -16,7 +16,7 @@ exports.AddBld = async (req, res) => {
 };
 //add bcomp
 exports.AddCmd = async (req, res) => {
-  const grp = new blcomp(req.body);
+  const grp = new blcomp(req.body); 
   try {
     await grp.save();
     res.status(201).send(grp);
@@ -44,6 +44,24 @@ exports.getData = async (req, res) => {
   try {
     const bank = await bbank.find();
     res.json(bank);
+  } catch (error) {
+    console.log("e", error);
+  }
+};
+//get all bGroup data
+exports.GetGroup = async (req, res) => {
+  try {
+    const group = await blgroup.find();
+    res.json(group);
+  } catch (error) {
+    console.log("e", error);
+  }
+};
+//get all bComp data
+exports.GetComp = async (req, res) => {
+  try {
+    const comp = await blcomp.find();
+    res.json(comp);
   } catch (error) {
     console.log("e", error);
   }

@@ -1,5 +1,4 @@
 const MyUser = require("../models/user_Model");
-const MyGrp = require("../models/blood_group_Model");
 const fs = require("fs");
 
 //add new user data
@@ -20,15 +19,6 @@ exports.GetUser = async (req, res) => {
   try {
     const user = await MyUser.find();
     res.json(user);
-  } catch (error) {
-    console.log("e", error);
-  }
-};
-//get all bGroup data
-exports.GetGroup = async (req, res) => {
-  try {
-    const group = await MyGrp.find();
-    res.json(group);
   } catch (error) {
     console.log("e", error);
   }

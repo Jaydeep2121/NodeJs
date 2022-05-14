@@ -19,6 +19,4 @@ router.get("/getUserRef/:id", userContr.getUserRef);
 router.get("/deleteUser/:id", userContr.deleteUser);
 // for getting user data
 router.get("/getUsers", userContr.GetUser);
-// for getting bloodgroup
-router.get("/getGroups", userContr.GetGroup);
 module.exports = router;
