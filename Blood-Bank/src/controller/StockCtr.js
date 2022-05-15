@@ -53,13 +53,13 @@ exports.deleteStock = async (req, res) => {
 //function to update data
 exports.UpdateStock = async (req, res) => {
   const keyFields = Object.keys(req.body);
-  const allowUpdate = ["volume", "day_left", "blood_group"];
+  const allowUpdate = ["volume", "day_left", "blood_group", "blood_compo"];
   const isValidOper = keyFields.every((value) => allowUpdate.includes(value));
   if (!isValidOper) {
     return res.status(400).send({ error: "invalid updates!" });
   }
   try {
-    const stock = await Mystock.findOneAndUpdate(req.body);
+    const stock = await Mystock.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
     res.send(stock);
   } catch (error) {
     console.log("e", error);

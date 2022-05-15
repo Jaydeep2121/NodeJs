@@ -7,7 +7,7 @@ const router = new express.Router();
 router.post("/users", FileUpl.upload.array("imageUrl", 1), userContr.AddUser);
 //for update User data
 router.patch(
-  "/UpdateUser",
+  "/UpdateUser/:id",
   FileUpl.upload.array("imageUrl", 1),
   userContr.UpdateUser
 );

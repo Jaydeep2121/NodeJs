@@ -12,10 +12,10 @@ exports.addRequest = async (req, res) => {
 };
 exports.Getreqdata = async (req, res) => {
   try {
-    const brequ = await Myrequest.find().populate(
-      "refuser",
-      "email"
-    );
+    const brequ = await Myrequest.find()
+      .populate("refuser", "email")
+      .populate("blood_group", "group")
+      .populate("blood_compo", "component");
     res.json(brequ);
   } catch (error) {
     console.log("e", error);

@@ -1,32 +1,32 @@
-const MyUser = require("../models/user_Model");
+const MyDonor = require("../models/donor_Model");
 const fs = require("fs");
 
-//add new user data
-exports.AddUser = async (req, res) => {
+//add new donor data
+exports.AddDonor = async (req, res) => {
     try {
-        const user = new MyUser({
+        const donor = new MyDonor({
             ...req.body,
             imageUrl: req.files,
         });
-        await user.save();
-        res.send(user);
+        await donor.save();
+        res.send(donor);
     } catch (error) {
         console.log("e", error);
     }
 };
-//get all user data
-exports.GetUser = async (req, res) => {
+//get all donor data
+exports.GetDonor = async (req, res) => {
     try {
-        const user = await MyUser.find();
-        res.json(user);
+        const donor = await MyDonor.find();
+        res.json(donor);
     } catch (error) {
         console.log("e", error);
     }
 };
 //function to update data
-exports.UpdateUser = async (req, res) => {
+exports.UpdateDonor = async (req, res) => {
     var objectValue = JSON.parse(JSON.stringify(req.body));
-    const pathdata = await MyUser.find({ email: objectValue["email"] });
+    const pathdata = await MyDonor.find({ email: objectValue["email"] });
     fs.unlink(pathdata[0].imageUrl[0]["path"], (err) => {
         if (err) return;
     });
@@ -44,26 +44,26 @@ exports.UpdateUser = async (req, res) => {
         return res.status(400).send({ error: "invalid updates!" });
     }
     try {
-        const user = await MyUser.findByIdAndUpdate(req.params.id, {
+        const donor = await MyDonor.findByIdAndUpdate(req.params.id, {
             ...req.body,
             imageUrl: req.files
         }, { new: true });
-        res.send(user);
+        res.send(donor);
     } catch (error) {
         console.log("e", error);
     }
 };
-// Get User Details By User ID
-exports.editUser = async (req, res) => {
-    MyUser.findById(req.params.id, function (err, usr) {
+// Get donor Details By User ID
+exports.editDonor = async (req, res) => {
+    MyDonor.findById(req.params.id, function (err, dnr) {
         if (err) return;
-        res.json(usr);
+        res.json(dnr);
     });
 };
-//to get user details with ref data
-exports.getUserRef = async (req, res) => {
+//to get donor details with ref data
+exports.getDonorRef = async (req, res) => {
     try {
-        const data = await MyUser.findById(req.params.id).populate(
+        const data = await MyDonor.findById(req.params.id).populate(
             "blood_group",
             "group"
         );
@@ -72,17 +72,17 @@ exports.getUserRef = async (req, res) => {
         console("err", error);
     }
 };
-//delete userData
-exports.deleteUser = async (req, res) => {
+//delete donorData
+exports.deleteDonor = async (req, res) => {
     try {
-        filedata = await MyUser.findById({ _id: req.params.id });
+        filedata = await MyDonor.findById({ _id: req.params.id });
         fs.unlink(filedata.imageUrl[0].path, (err) => {
             if (err) return;
         });
-        MyUser.findByIdAndDelete({ _id: req.params.id }, async (err, data) => {
+        MyDonor.findByIdAndDelete({ _id: req.params.id }, async (err, data) => {
             if (err) res.json(err);
             else {
-                res.json({ success: "User Deleted Successfully" });
+                res.json({ success: "Donor Deleted Successfully" });
             }
         });
     } catch (error) {

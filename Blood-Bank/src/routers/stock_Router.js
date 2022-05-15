@@ -13,7 +13,7 @@ router.get("/getStockRef/:id", StockCtr.getStockRef);
 //for delete data
 router.get("/deleteStock/:id", StockCtr.deleteStock);
 //for update data
-router.patch("/UpdateStockdata",fromdata.none(),StockCtr.UpdateStock);
+router.patch("/UpdateStockdata/:id",fromdata.none(),StockCtr.UpdateStock);
 // for getting stock data
 router.get("/getStock", StockCtr.Getstock);
 module.exports = router;

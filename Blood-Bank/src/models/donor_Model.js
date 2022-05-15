@@ -3,7 +3,7 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const UserSchema = new mongoose.Schema({
+const DonorSchema = new mongoose.Schema({
   name:{
     type: String,
     required: true,
@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema({
   mobile:{
       type:Number,
       trim:true,
-      required:[true,'User phone number required']
+      required:[true,'donor phone number required']
   },
   password: {
     type: String,
@@ -50,21 +50,21 @@ const UserSchema = new mongoose.Schema({
   },
 },{timestamps:true});
 //generate token
-UserSchema.methods.generateAuthToken = async function () {
+DonorSchema.methods.generateAuthToken = async function () {
     const Guser = this;
     const token = jwt.sign({ _id: Guser._id.toString() }, "thisisdemo");
     await Guser.save();
     return token;
 };
 //Hash the plain text password before saving
-UserSchema.pre("save", async function (next) {
-  const user = this;
-  if (user.isModified("password")) {
-    user.password = await bcrypt.hash(user.password, 8);
+DonorSchema.pre("save", async function (next) {
+  const donor = this;
+  if (donor.isModified("password")) {
+    donor.password = await bcrypt.hash(donor.password, 8);
   }
   next();
 });
-UserSchema.pre('findOneAndUpdate', function(next) {
+DonorSchema.pre('findOneAndUpdate', function(next) {
   if (!this._update.password) {
     return next()
   }
@@ -77,8 +77,8 @@ UserSchema.pre('findOneAndUpdate', function(next) {
   }) 
 })
 //for login credentials
-UserSchema.statics.findByCredentials = async (email,password)=>{
-    const CurrUser = await user.findOne({ email })
+DonorSchema.statics.findByCredentials = async (email,password)=>{
+    const CurrUser = await donor.findOne({ email })
     if(!CurrUser){
         throw new Error('Unablezzz to login')
     }
@@ -88,5 +88,5 @@ UserSchema.statics.findByCredentials = async (email,password)=>{
     }
     return CurrUser
 }
-const user = mongoose.model("User", UserSchema);
-module.exports = user;
+const donor = mongoose.model("Donor", DonorSchema);
+module.exports = donor;
