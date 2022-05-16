@@ -21,3 +21,13 @@ exports.Getreqdata = async (req, res) => {
     console.log("e", error);
   }
 };
+//to get stock details with ref data
+exports.Getreqapdata = async (req, res) => {
+  try {
+    const data = await Myrequest.findById(req.params.id).populate("blood_compo","component").
+    populate("blood_group", "group");
+    res.json(data);
+  } catch (error) {
+    console("err", error);
+  }
+};

@@ -59,7 +59,22 @@ exports.UpdateStock = async (req, res) => {
     return res.status(400).send({ error: "invalid updates!" });
   }
   try {
-    const stock = await Mystock.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+    const stock = await Mystock.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.send(stock);
+  } catch (error) {
+    console.log("e", error);
+  }
+};
+//function to stock req qty update data
+exports.UpdatereqStock = async (req, res) => {
+  try {
+    const stock = await Mystock.findByIdAndUpdate(req.params.id, {
+      day_left:req.body.day_lt,
+      volume: req.body.quantity
+    });
     res.send(stock);
   } catch (error) {
     console.log("e", error);

@@ -6,5 +6,6 @@ module.exports=[
     require("../routers/donor_Router"),
     require("../routers/bbank_Router"),
     require("../routers/stock_Router"),
-    require("../routers/request_Router")
+    require("../routers/request_Router"),
+    require("../routers/reqApprv_Router")
 ];
