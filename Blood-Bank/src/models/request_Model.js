@@ -21,6 +21,12 @@ const requestM = new mongoose.Schema(
       required: true,
       ref: "bcompo",
     },
+    status:{
+      type: String,
+      required: true,
+      default:'pending',
+      trim: true,
+    }
   },
   { timestamps: true }
 );

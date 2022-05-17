@@ -7,6 +7,8 @@ const fromdata = multer();
 
 //add request data
 router.post("/AddReqStatus/:id",fromdata.none(),reqCtr.addRequestApp);
+//add request data
+router.post("/AddDeniedReqStatus/:id",fromdata.none(),reqCtr.addRequestApp);
 // for getting approval data
 router.get("/getUreqRef/:id", reqCtr1.Getreqapdata);
 // for getting reqAppr data

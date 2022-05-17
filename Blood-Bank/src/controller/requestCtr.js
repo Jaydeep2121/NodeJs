@@ -10,6 +10,18 @@ exports.addRequest = async (req, res) => {
     res.status(400).send(error);
   }
 };
+exports.UpdRequest = async (req, res) => {
+  try {
+    const reqap = await Myrequest.findByIdAndUpdate(req.params.id, {
+      status: req.body.data
+    }, { new: true });
+    res.status(201).send(reqap);
+  } catch (error) {
+    console.log("e", error);
+    res.status(400).send(error);
+  }
+};
+
 exports.Getreqdata = async (req, res) => {
   try {
     const brequ = await Myrequest.find()

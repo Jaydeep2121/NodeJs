@@ -72,7 +72,6 @@ exports.UpdateStock = async (req, res) => {
 exports.UpdatereqStock = async (req, res) => {
   try {
     const stock = await Mystock.findByIdAndUpdate(req.params.id, {
-      day_left:req.body.day_lt,
       volume: req.body.quantity
     });
     res.send(stock);
