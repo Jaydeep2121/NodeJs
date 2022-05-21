@@ -5,6 +5,8 @@ const router = new express.Router();
 
 //for save User data
 router.post("/users", FileUpl.upload.array("imageUrl", 1), userContr.AddUser);
+//login user
+router.post("/user/login",userContr.loginusr);
 //for update User data
 router.patch(
   "/UpdateUser/:id",

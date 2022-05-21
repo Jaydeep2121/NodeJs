@@ -14,6 +14,25 @@ exports.AddUser = async (req, res) => {
         console.log("e", error);
     }
 };
+//login User
+exports.loginusr = async (req, res) => {
+    try {
+      const user = await MyUser.findByCredentials(
+        req.body.userEmail,
+        req.body.userPass
+      );
+      const token = await user.generateAuthToken();
+      res.cookie("jwt", token, {
+        httpOnly: false, // for more secure and can't acces from outside if true
+        nextAge: 24 * 60 * 60 * 1000, //1 day
+      });
+      res.send({
+        message: "success",
+      });
+    } catch (error) {
+      res.status(400).send({message:"failed"});
+    }
+};
 //get all user data
 exports.GetUser = async (req, res) => {
     try {
