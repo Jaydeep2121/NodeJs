@@ -1,4 +1,5 @@
 const MyUser = require("../models/user_Model");
+var jwt = require("jsonwebtoken");
 const fs = require("fs");
 
 //add new user data
@@ -14,6 +15,25 @@ exports.AddUser = async (req, res) => {
         console.log("e", error);
     }
 };
+//authenticate user
+exports.authen = async (req, res) => {
+    try {
+      const cookie = req.cookies["jwt"];
+      const claims = jwt.verify(cookie, "thisisdemo");
+      if (!claims) {
+        return res.status(401).send({
+          message: "unauthenticate",
+        });
+      }
+      const user = await MyUser.findOne({ _id: claims._id });
+      const { password, ...data } = await user.toJSON();
+      res.send(data);
+    } catch (error) {
+      return res.status(401).send({
+        message: "unauthenticate",
+      });
+    }
+  };
 //login User
 exports.loginusr = async (req, res) => {
     try {
@@ -74,10 +94,18 @@ exports.UpdateUser = async (req, res) => {
 };
 // Get User Details By User ID
 exports.editUser = async (req, res) => {
-    MyUser.findById(req.params.id, function (err, usr) {
+    MyUser.findById({email:req.params.id}, function (err, usr) {
         if (err) return;
         res.json(usr);
     });
+};
+// Get User Details By User ID
+exports.editUserEmail = async (req, res) => {
+    console.log('req.params.id')
+    // MyUser.findById(req.params.id, function (err, usr) {
+    //     if (err) return;
+    //     res.json(usr);
+    // });
 };
 //to get user details with ref data
 exports.getUserRef = async (req, res) => {
