@@ -64,11 +64,11 @@ exports.GetUser = async (req, res) => {
 };
 //function to update data
 exports.UpdateUser = async (req, res) => {
-    var objectValue = JSON.parse(JSON.stringify(req.body));
-    const pathdata = await MyUser.find({ email: objectValue["email"] });
-    fs.unlink(pathdata[0].imageUrl[0]["path"], (err) => {
-        if (err) return;
-    });
+    // var objectValue = JSON.parse(JSON.stringify(req.body));
+    // const pathdata = await MyUser.find({ email: objectValue["email"] });   
+    // fs.unlink(pathdata[0].imageUrl[0]["path"], (err) => {
+    //     if (err) return;
+    // });
     const keyFields = Object.keys(req.body);
     const allowUpdate = [
         "name",
@@ -94,18 +94,17 @@ exports.UpdateUser = async (req, res) => {
 };
 // Get User Details By User ID
 exports.editUser = async (req, res) => {
-    MyUser.findById({email:req.params.id}, function (err, usr) {
+    MyUser.findById(req.params.id, function (err, usr) {
         if (err) return;
         res.json(usr);
     });
 };
 // Get User Details By User ID
 exports.editUserEmail = async (req, res) => {
-    console.log('req.params.id')
-    // MyUser.findById(req.params.id, function (err, usr) {
-    //     if (err) return;
-    //     res.json(usr);
-    // });
+    MyUser.findOne({email:req.params.id}, function (err, usr) {
+        if (err) return;
+        res.json(usr);
+    });
 };
 //to get user details with ref data
 exports.getUserRef = async (req, res) => {

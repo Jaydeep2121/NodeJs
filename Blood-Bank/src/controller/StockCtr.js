@@ -12,7 +12,7 @@ exports.Addstock = async (req, res) => {
 };
 exports.Getstock = async (req, res) => {
   try {
-    const stock = await Mystock.find().populate("blood_group", "group");
+    const stock = await Mystock.find().populate("blood_group", "group").populate("blood_compo","component");
     res.json(stock);
   } catch (error) {
     console.log("e", error);
