@@ -1,4 +1,6 @@
 const paginate = require('jw-paginate');
+const { options } = require('nodemon/lib/config');
+const stockModl = require("../models/stock_Model");
 
 exports.paginator = async (req, res) => {
     try {
@@ -20,4 +22,19 @@ exports.paginator = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+}
+exports.get_userbysort= async function(req, res){
+    var sortObject = {};
+    var stype =req.params.sortwith;
+    if(req.params.sortby=='desc'){
+        var sortwith=-1
+    }else{
+        var sortwith=1
+    }
+    sortObject[stype] = sortwith;
+    stockModl.find((err,data)=>{
+        if (err) res.status(400).send({ error: err.message })
+            res.status(200).send(data)
+    }).populate("blood_group", "group").populate("blood_compo","component")
+    .sort(sortObject)
 }
