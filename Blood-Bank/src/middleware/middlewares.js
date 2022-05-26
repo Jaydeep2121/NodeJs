@@ -9,5 +9,7 @@ module.exports=[
     require("../routers/stock_Router"),
     require("../routers/request_Router"),
     require("../routers/reqApprv_Router"),
-    require("../routers/pagination_Router")
+    require("../routers/pagination_Router"),
+    require("../routers/camp_Router"),
+    require("../routers/appoit_Router")
 ];
