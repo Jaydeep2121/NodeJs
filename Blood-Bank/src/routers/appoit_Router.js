@@ -8,6 +8,8 @@ router.post('/addApp',appctr.Addapp);
 router.get("/getappomt", appctr.Getapp);
 //for getting donor data
 router.get("/getDonorAp", appctr.GetdonorApp);
-//for getting donor data
+//for getting donor data by id
 router.get("/getAppRef/:id", appctr.GetAppref);
+//for delete donor data
+router.get("/deleteDonor/:id", appctr.deleteDonor);
 module.exports = router;
