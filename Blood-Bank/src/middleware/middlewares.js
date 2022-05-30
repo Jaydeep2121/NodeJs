@@ -10,5 +10,6 @@ module.exports=[
     require("../routers/reqApprv_Router"),
     require("../routers/pagination_Router"),
     require("../routers/camp_Router"),
-    require("../routers/appoit_Router")
+    require("../routers/appoit_Router"),
+    require("../routers/apprvl_Router")
 ];
