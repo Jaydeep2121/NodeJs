@@ -34,6 +34,30 @@ exports.authen = async (req, res) => {
     });
   }
 };
+//to find the search data
+exports.Getsearch = async (req, res) => {
+  let x = req.params?.data;
+  x = x.trim();
+  // if(/^\d+$/.test(x)){
+  //   x = Number(x.trim());
+  // }
+  try {
+    const userdata = await MyUser.find({
+      $or: [
+        { name: { $regex: x, $options: "i" } },
+        { email: { $regex: x, $options: "i" } },
+        { gender: { $regex: x, $options: "i" } },
+        // { mobile: { $regex: x } },
+      ],
+    });
+    if (userdata.length === 0) {
+      return res.status(404).json({ data: "User List is Empty" });
+    }
+    return res.json({ data: userdata });
+  } catch (error) {
+    console.log("e", error);
+  }
+};
 //login User
 exports.loginusr = async (req, res) => {
   try {

@@ -8,6 +8,8 @@ const fromdata = multer();
 router.post('/addCamp',campctr.Addcmp);
 // for getting stock data
 router.get("/getCamp", campctr.Getcamp);
+// for getting search data
+router.get("/getCampSearch/:data", campctr.Getsearch);
 //for delete data
 router.get("/deleteCamp/:id", campctr.deleteCamp);
 //for update User data

@@ -1,4 +1,5 @@
 const Myapp = require("../models/appoint_Model");
+const MyUser = require("../models/user_Model");
 
 //add appointment details
 exports.Addapp = async (req, res) => {
@@ -38,6 +39,29 @@ exports.GetAppref = async (req, res) => {
     res.json(app);
   } catch (error) {
     console("err", error);
+  }
+};
+//to find the search data
+exports.Getsearch = async (req, res) => {
+  let x = req.params?.data;
+  x = x.trim();
+  try {
+    // { name: { $regex: x, $options: "i" } },
+    //       { email: { $regex: x, $options: "i" } },
+    //       { gender: { $regex: x, $options: "i" } },
+    const donordata = await Myapp.find({
+      $or: [
+        { name: { $regex: x, $options: "i" } },
+        { email: { $regex: x, $options: "i" } },
+        { gender: { $regex: x, $options: "i" } }
+      ],
+    }).populate("refuser");
+    if (donordata.length === 0) {
+      return res.status(404).json({ data: "Donor List is Empty" });
+    }
+    return res.json({ data: donordata });
+  } catch (error) {
+    console.log("e", error);
   }
 };
 //delete donorData

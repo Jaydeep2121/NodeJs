@@ -10,6 +10,8 @@ router.get("/getappomt", appctr.Getapp);
 router.get("/getDonorAp", appctr.GetdonorApp);
 //for getting donor data by id
 router.get("/getAppRef/:id", appctr.GetAppref);
+//for donor search
+router.get("/getDonorSearch/:data", appctr.Getsearch);
 //for delete donor data
 router.get("/deleteDonor/:id", appctr.deleteDonor);
 module.exports = router;

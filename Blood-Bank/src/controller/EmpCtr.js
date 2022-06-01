@@ -23,6 +23,30 @@ exports.GetEmp = async (req, res) => {
     console.log("e", error);
   }
 };
+//to find the search data
+exports.Getsearch = async (req, res) => {
+  let x = req.params?.data;
+  x = x.trim();
+  // if(/^\d+$/.test(x)){
+  //   x = Number(x.trim());
+  // }
+  try {
+    const empdata = await MyEmp.find({
+      $or: [
+        { name: { $regex: x, $options: "i" } },
+        { email: { $regex: x, $options: "i" } },
+        { gender: { $regex: x, $options: "i" } },
+        // { mobile: { $regex: x } },
+      ],
+    });
+    if (empdata.length === 0) {
+      return res.status(404).json({ data: "Emp List is Empty" });
+    }
+    return res.json({ data: empdata });
+  } catch (error) {
+    console.log("e", error);
+  }
+};
 //function to update data
 exports.UpdateEmp = async (req, res) => {
   var objectValue = JSON.parse(JSON.stringify(req.body));

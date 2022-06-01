@@ -17,6 +17,8 @@ router.get("/editEmp/:id", EmpContr.editEmp);
 router.get("/getEmpRef/:id", EmpContr.getEmpRef);
 //for delete data
 router.get("/deleteEmp/:id", EmpContr.deleteEmp);
+//to searching
+router.get("/getEmpSearch/:data", EmpContr.Getsearch);
 // for getting user data
 router.get("/getEmps", EmpContr.GetEmp);
 module.exports = router;

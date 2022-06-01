@@ -21,6 +21,8 @@ router.get("/editUser/:id", userContr.editUser);
 router.get("/editUserByEmail/:id", userContr.editUserEmail);
 //to get user details with ref data
 router.get("/getUserRef/:id", userContr.getUserRef);
+//to searching
+router.get("/getUserSearch/:data", userContr.Getsearch);
 //for delete data
 router.get("/deleteUser/:id", userContr.deleteUser);
 // for getting user data
