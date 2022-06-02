@@ -46,9 +46,6 @@ exports.Getsearch = async (req, res) => {
   let x = req.params?.data;
   x = x.trim();
   try {
-    // { name: { $regex: x, $options: "i" } },
-    //       { email: { $regex: x, $options: "i" } },
-    //       { gender: { $regex: x, $options: "i" } },
     const donordata = await Myapp.find({
       $or: [
         { name: { $regex: x, $options: "i" } },

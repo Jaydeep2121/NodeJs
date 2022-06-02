@@ -39,7 +39,8 @@ exports.loginadm = async (req, res) => {
 //authenticate admin
 exports.authen = async (req, res) => {
   try {
-    const cookie = req.cookies["jwt"];
+    const cookie = req.headers.authorization.split(' ')[1]; //split from space and get 1st value
+    // const cookie = req.cookies["jwt"];
     const claims = jwt.verify(cookie, "thisisdemo");
     if (!claims) {
       return res.status(401).send({
