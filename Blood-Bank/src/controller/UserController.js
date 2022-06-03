@@ -1,6 +1,8 @@
 const MyUser = require("../models/user_Model");
 var jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
 
 //add new user data
 exports.AddUser = async (req, res) => {
@@ -32,6 +34,49 @@ exports.authen = async (req, res) => {
     return res.status(401).send({
       message: "unauthenticate",
     });
+  }
+};
+exports.forPass = async (req, res) => {
+  const FindEmail = req.body.userEmail;
+  try {
+    // See if user exists
+    let user = await MyUser.findOne({ email: FindEmail });
+    if (!user) {
+      return res.status(400).send({ msg: "Email not registered" });
+    }
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "jaydipc95@gmail.com",
+        pass: "ggkqgbxmkmduknix",
+      },
+    });
+
+    newpassword = `${user.name}@34K$%`;
+
+    var mailOptiosans = {
+      from: "jaydipc95@gmail.com",
+      to: FindEmail,
+      subject: "Forgot Password",
+      html: `<h1> Your New Password is: ${newpassword}</h1>`,
+    };
+    transporter.sendMail(mailOptiosans, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(`Email Sent:` + info.response);
+      }
+    });
+
+    const data = await MyUser.findOneAndUpdate(
+      { email: FindEmail },
+      { password: newpassword }
+    );
+
+    res.status(200).send({ msg: "Password Updated Successfully" });
+  } catch (error) {
+    res.status(404).send({ error: "notfound" });
+    console.log("e", error);
   }
 };
 //to find the search data

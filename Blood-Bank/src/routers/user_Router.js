@@ -2,6 +2,8 @@ const express = require("express");
 const userContr = require("../controller/UserController");
 const FileUpl = require("../controller/FileUpload");
 const router = new express.Router();
+const multer = require('multer');
+const fromdata = multer();
 
 //for save User data
 router.post("/users", FileUpl.upload.array("imageUrl", 1), userContr.AddUser);
@@ -15,6 +17,8 @@ router.patch(
   FileUpl.upload.array("imageUrl", 1),
   userContr.UpdateUser
 );
+// To Forget Password
+router.post("/forgetPass", userContr.forPass);
 // To Get User Details By User ID
 router.get("/editUser/:id", userContr.editUser);
 // To Get User Details By User ID

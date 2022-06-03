@@ -7,6 +7,8 @@ const router = new express.Router();
 router.post("/admin",FileUpl.upload.array("imageUrl", 1),Adminctr.Addadmin);
 //login admin
 router.post("/admin/login",Adminctr.loginadm);
+// To Forget Password
+router.post("/AdminforgetPass", Adminctr.forPass);
 //authenticate admin
 router.get("/auth-admin",Adminctr.authen);
 //logout
