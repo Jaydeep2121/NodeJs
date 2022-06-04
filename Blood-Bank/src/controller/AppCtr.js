@@ -5,7 +5,7 @@ const MyUser = require("../models/user_Model");
 exports.Addapp = async (req, res) => {
   const appt = new Myapp({
     refcamp: req.body.campfield,
-    refuser: req.body.userfield
+    refuser: req.body.userfield,
   });
   try {
     await appt.save();
@@ -50,7 +50,7 @@ exports.Getsearch = async (req, res) => {
       $or: [
         { name: { $regex: x, $options: "i" } },
         { email: { $regex: x, $options: "i" } },
-        { gender: { $regex: x, $options: "i" } }
+        { gender: { $regex: x, $options: "i" } },
       ],
     }).populate("refuser");
     if (donordata.length === 0) {
@@ -63,14 +63,17 @@ exports.Getsearch = async (req, res) => {
 };
 //delete donorData
 exports.deleteDonor = async (req, res) => {
-  const delid = await Myapp.find({refuser:req.params.id});
+  const delid = await Myapp.find({ refuser: req.params.id });
   try {
-    Myapp.findByIdAndDelete({ _id: delid[0]._id.toString() }, async (err, data) => {
-      if (err) res.json(err);
-      else {
-        res.json({ success: "Donor Deleted Successfully" });
+    Myapp.findByIdAndDelete(
+      { _id: delid[0]._id.toString() },
+      async (err, data) => {
+        if (err) res.json(err);
+        else {
+          res.json({ success: "Donor Deleted Successfully" });
+        }
       }
-    });
+    );
   } catch (error) {
     console.log("e", error);
   }
