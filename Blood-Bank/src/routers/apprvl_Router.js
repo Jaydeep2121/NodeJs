@@ -7,5 +7,5 @@ router.post('/addApprvl',apprvlctr.addapprvl);
 // for getting apprvl
 router.get("/getApprvl", apprvlctr.getapprvl);
 //add donorEl
-router.post('/adddnrEl',apprvlctr.adddonrEl);
+router.post('/adddnrEl/:id',apprvlctr.adddonrEl);
 module.exports = router;

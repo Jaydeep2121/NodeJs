@@ -3,11 +3,11 @@ const MyUser = require("../models/user_Model");
 
 //add appointment details
 exports.Addapp = async (req, res) => {
-  const appt = new Myapp({
-    refcamp: req.body.campfield,
-    refuser: req.body.userfield,
-  });
   try {
+    const appt = new Myapp({
+      refcamp: req.body.refcamp,
+      refuser: req.body.userfield,
+    });
     await appt.save();
     res.status(201).send(appt);
   } catch (error) {
