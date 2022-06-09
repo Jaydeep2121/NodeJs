@@ -12,22 +12,12 @@ exports.addapprvl = async (req, res) => {
   }
 };
 exports.adddonrEl = async (req, res) => {
+  var [lyear, lmonth, lday] = req.body.last_donate.split('-');
+  var [dyear, dmonth, dday] = req.body.dob.split('-');
   try {
     const donrEl = new MyDonrEl({
-      last_donate: new Date(
-        req.body.last_donate.month +
-          "/" +
-          (req.body.last_donate.day + 1) +
-          "/" +
-          req.body.last_donate.year
-      ),
-      dob: new Date(
-        req.body.dob.month +
-          "/" +
-          (req.body.dob.day + 1) +
-          "/" +
-          req.body.dob.year
-      ),
+      last_donate: new Date(+lyear, lmonth - 1, +(lday)+1),
+      dob: new Date(+dyear, dmonth - 1, +(dday)+1),
       weight: req.body.weight,
       hemog: req.body.hemog,
       refuser: req.params.id,
