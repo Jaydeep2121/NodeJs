@@ -11,19 +11,44 @@ exports.addapprvl = async (req, res) => {
     res.status(400).send(error);
   }
 };
+exports.updateDonrEl = async (req, res) => {
+  try {
+    const donorel = await MyDonrEl.findOneAndUpdate(
+      { refuser: req.params.id },
+      {
+        last_donate: req.body.last_donate,
+        status: "verify",
+      }
+    );
+    res.send(donorel);
+  } catch (error) {
+    console.log("e", error);
+    res.status(400).send(error);
+  }
+};
 exports.adddonrEl = async (req, res) => {
-  var [lyear, lmonth, lday] = req.body.last_donate.split('-');
-  var [dyear, dmonth, dday] = req.body.dob.split('-');
+  var [dyear, dmonth, dday] = req.body.dob.split("-");
   try {
     const donrEl = new MyDonrEl({
-      last_donate: new Date(+lyear, lmonth - 1, +(lday)+1),
-      dob: new Date(+dyear, dmonth - 1, +(dday)+1),
+      dob: new Date(+dyear, dmonth - 1, +dday + 1),
       weight: req.body.weight,
       hemog: req.body.hemog,
       refuser: req.params.id,
     });
     await donrEl.save();
     res.status(201).send(donrEl);
+  } catch (error) {
+    console.log("e", error);
+    res.status(400).send(error);
+  }
+};
+//get donor spec record
+exports.getDonrEl = async (req, res) => {
+  try {
+    const donrEl = await MyDonrEl.findOne(
+      { refuser: req.params.id }
+    );
+    res.send(donrEl);
   } catch (error) {
     console.log("e", error);
     res.status(400).send(error);

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const eligModel = new mongoose.Schema({
     last_donate:{
         type:Date,
-        required:true,
+        default:null,
         trim:true
     },
     dob:{
@@ -24,6 +24,11 @@ const eligModel = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "User",
+    },
+    status:{
+        type:String,
+        trim:true,
+        default:'pending'
     }
 });
 const elig = mongoose.model("donorEli", eligModel);

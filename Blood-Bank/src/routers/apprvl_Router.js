@@ -6,6 +6,10 @@ const router = new express.Router();
 router.post('/addApprvl',apprvlctr.addapprvl);
 // for getting apprvl
 router.get("/getApprvl", apprvlctr.getapprvl);
+//for getting donorEl spec record
+router.get('/getdnrEl/:id',apprvlctr.getDonrEl);
+//update donorEl
+router.post('/upddnrEl/:id',apprvlctr.updateDonrEl);
 //add donorEl
 router.post('/adddnrEl/:id',apprvlctr.adddonrEl);
 module.exports = router;
