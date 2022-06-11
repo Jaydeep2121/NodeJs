@@ -17,7 +17,7 @@ exports.Addapp = async (req, res) => {
 //get appointment details
 exports.Getapp = async (req, res) => {
   try {
-    const app = await Myapp.find();
+    const app = await Myapp.find({refuser:req.params.id});
     res.json(app);
   } catch (error) {
     console.log("e", error);

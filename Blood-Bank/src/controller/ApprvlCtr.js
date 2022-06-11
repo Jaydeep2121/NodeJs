@@ -17,7 +17,8 @@ exports.updateDonrEl = async (req, res) => {
       { refuser: req.params.id },
       {
         last_donate: req.body.last_donate,
-        status: "verify",
+        // status: "verify",
+        status: "pending",
       }
     );
     res.send(donorel);
