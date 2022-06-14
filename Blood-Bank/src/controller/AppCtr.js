@@ -1,5 +1,4 @@
 const Myapp = require("../models/appoint_Model");
-const MyUser = require("../models/user_Model");
 
 //add appointment details
 exports.Addapp = async (req, res) => {
@@ -14,11 +13,36 @@ exports.Addapp = async (req, res) => {
     res.status(400).send(error);
   }
 };
+//update appointment details
+exports.Updateapp = async (req, res) => {
+  try {
+    const updateap = await Myapp.findOneAndUpdate(
+      { refuser: req.params.uid, refcamp: req.params.cid },
+      { refcamp: req.body.camp_name}
+    );
+    res.status(201).send(updateap);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
 //get appointment details
 exports.Getapp = async (req, res) => {
   try {
-    const app = await Myapp.find({refuser:req.params.id})
-                .populate("refcamp");
+    const app = await Myapp.find({ refuser: req.params.id }).populate(
+      "refcamp"
+    );
+    res.json(app);
+  } catch (error) {
+    console.log("e", error);
+  }
+};
+//get appointment patch details
+exports.Getpatchapp = async (req, res) => {
+  try {
+    const app = await Myapp.findOne(
+      { refuser: req.params.uid },
+      { refcamp: req.params.cid }
+    ).populate("refcamp");
     res.json(app);
   } catch (error) {
     console.log("e", error);
@@ -65,6 +89,23 @@ exports.Getsearch = async (req, res) => {
 //delete donorData
 exports.deleteDonor = async (req, res) => {
   const delid = await Myapp.find({ refuser: req.params.id });
+  try {
+    Myapp.findByIdAndDelete(
+      { _id: delid[0]._id.toString() },
+      async (err, data) => {
+        if (err) res.json(err);
+        else {
+          res.json({ success: "Donor Deleted Successfully" });
+        }
+      }
+    );
+  } catch (error) {
+    console.log("e", error);
+  }
+};
+//delete donorData
+exports.deleteDonorCamp = async (req, res) => {
+  const delid = await Myapp.find({ refcamp: req.params.id });
   try {
     Myapp.findByIdAndDelete(
       { _id: delid[0]._id.toString() },
