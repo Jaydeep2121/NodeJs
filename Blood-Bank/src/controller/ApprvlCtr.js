@@ -28,10 +28,8 @@ exports.updateDonrEl = async (req, res) => {
   }
 };
 exports.adddonrEl = async (req, res) => {
-  var [dyear, dmonth, dday] = req.body.dob.split("-");
   try {
     const donrEl = new MyDonrEl({
-      dob: new Date(+dyear, dmonth - 1, +dday + 1),
       weight: req.body.weight,
       hemog: req.body.hemog,
       refuser: req.params.id,

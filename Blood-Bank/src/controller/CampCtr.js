@@ -15,7 +15,7 @@ exports.Addcmp = async (req, res) => {
 exports.UpdateCamp = async (req, res) => {
   const keyFields = Object.keys(req.body);
   const allowUpdate = [
-    "date",
+    "dob",
     "time",
     "camp_name",
     "address",
@@ -59,6 +59,7 @@ exports.Getsearch = async (req, res) => {
     const campdata = await Mycamp.find({
       $or: [
         { time: { $regex: x, $options: "i" } },
+        // { dob: { $regex: x, $options: "i" } },
         { camp_name: { $regex: x, $options: "i" } },
         { address: { $regex: x, $options: "i" } },
         { conducted_by: { $regex: x, $options: "i" } },

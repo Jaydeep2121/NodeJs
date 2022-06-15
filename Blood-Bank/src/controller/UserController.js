@@ -142,6 +142,7 @@ exports.UpdateUser = async (req, res) => {
   const allowUpdate = [
     "name",
     "email",
+    "dob",
     "gender",
     "mobile",
     "password",

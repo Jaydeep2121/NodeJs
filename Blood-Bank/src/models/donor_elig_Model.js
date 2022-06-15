@@ -5,11 +5,6 @@ const eligModel = new mongoose.Schema({
         default:null,
         trim:true
     },
-    dob:{
-        type:Date,
-        required:true,
-        trim:true
-    },
     weight:{
         type:Number,
         required:true,

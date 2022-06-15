@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const campmodel = new mongoose.Schema({
-    date:{
+    dob:{
         type:Date,
         required:true,
         trim:true

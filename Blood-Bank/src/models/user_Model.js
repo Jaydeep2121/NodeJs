@@ -20,6 +20,11 @@ const UserSchema = new mongoose.Schema({
       }
     },
   },
+  dob:{
+    type:Date,
+    required:true,
+    trim:true
+  },
   gender:{
     type:String,
     trim:true,
